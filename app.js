@@ -1,6 +1,9 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
+let employeeArray = []; 
+
+
 const promptManager = () => {
     console.log('Please build your team:')
     return inquirer.prompt([
@@ -46,7 +49,7 @@ const promptManager = () => {
           },
           {
             type: 'input',
-            name: 'managerOffice',
+            name: 'officeNumber',
             message: "What is the team manager's office number? (Required)",
             validate: managerOfficeInput => {
               if (managerOfficeInput) {
@@ -58,9 +61,21 @@ const promptManager = () => {
             }
           },
     ])
+    .then(managerData => {
+      //push object to employeeArray
+      managerData.type = 'manager'
+      employeeArray.push(managerData);
+
+      //generateHTML using this object
+
+
+      //prompt and log
+        promptEmployeeType();
+        console.log(managerData);
+    })
 }
 
-const promptEmployeeType = managerData => {
+const promptEmployeeType = () => {
     return inquirer.prompt([
         {
             type: 'list',
@@ -79,16 +94,19 @@ const promptEmployeeType = managerData => {
     ])
     .then(typeData => {
         if (typeData.employeeType === 'Engineer'){
-            promptEngineer(managerData)
+            promptEngineer()
         } else if(typeData.employeeType === 'Intern'){
-            promptIntern(managerData)
+            promptIntern()
+        } else if (typeData.employeeType === "I don't want to add anymore team members") {
+            console.log('HTML file generated!')
+            console.log(employeeArray)
         }
     })
 
 }
 
 
-const promptEngineer = managerData => {
+const promptEngineer = () => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -144,19 +162,19 @@ const promptEngineer = managerData => {
           },
     ])
     .then(engineerData => {
-        if (!managerData.employees){
-            managerData.employees = []
-        };
+      //push object to employeeArray
+      engineerData.type = 'engineer'
+      employeeArray.push(engineerData);
 
-        managerData.employees.push(engineerData);
+      //generateHTML using this object
 
-        promptEmployeeType(managerData);
-        console.log(managerData)
-
+      //reprompt and log
+        promptEmployeeType();
+        console.log(engineerData);
     })
 }
 
-const promptIntern = managerData => {
+const promptIntern = () => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -212,14 +230,14 @@ const promptIntern = managerData => {
           },
     ])
     .then(internData => {
-        if (!managerData.employees){
-            managerData.employees = []
-        };
+      //push object to employeeArray
+      internData.type = 'intern'
+      employeeArray.push(internData);
+      //generateHTML using this object
 
-        managerData.employees.push(internData);
-        
-        promptEmployeeType(managerData);
-        console.log(managerData)
+      //reprompt and log
+        promptEmployeeType();
+        console.log(internData);
     })
 
 }
@@ -229,9 +247,10 @@ const promptIntern = managerData => {
 
 
 const promptUser = () => {
-    promptManager()
-    .then(promptEmployeeType)
+    promptManager();
 }
 
 
 promptUser();
+
+export {employeeArray}; 
