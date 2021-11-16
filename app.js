@@ -247,10 +247,9 @@ const promptIntern = () => {
 
 
 const promptUser = () => {
-    promptManager();
+    promptManager().then()
 }
 
 
 promptUser();
 
-export {employeeArray}; 
