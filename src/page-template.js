@@ -1,17 +1,16 @@
+const Engineer = require("../lib/Engineer")
 
 const generateCards = employeeArray => {
-    let employeesArray = Object.values(employeeArray)
-    console.log('generated array', employeesArray)
-
+    const manager = employeeArray[0]
+    const engineers = employeeArray.filter(employee => {
+        if(employee == 'Engineer'){
+            return true
+        }else {
+            return false 
+        }
+    })
+    console.log('engineeeeeeeers', engineers)
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -48,3 +47,4 @@ module.exports = templateData => {
     </html>
     `
 }
+

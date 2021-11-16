@@ -80,36 +80,6 @@ const promptManager = () => {
     })
 }
 
-const promptEmployeeType = () => {
-    return inquirer.prompt([
-        {
-            type: 'list',
-            name: 'employeeType',
-            message: "What kind of team member would you like to add? (Required)",
-            choices: ['Engineer', 'Intern', "I don't want to add anymore team members"],
-            validate: employeeTypeInput => {
-              if (employeeTypeInput) {
-                return true;
-              } else {
-                console.log('Please enter an employee type!');
-                return false;
-              }
-            }
-          },
-    ])
-    .then(typeData => {
-        if (typeData.employeeType === 'Engineer'){
-            promptEngineer()
-        } else if(typeData.employeeType === 'Intern'){
-            promptIntern()
-        } else if (typeData.employeeType === "I don't want to add anymore team members") {
-            console.log('HTML file generated!')
-            console.log(employeeArray)
-        }
-    })
-
-}
-
 
 const promptEngineer = () => {
     return inquirer.prompt([
@@ -246,13 +216,42 @@ const promptIntern = () => {
 
 }
 
+const promptEmployeeType = () => {
+  return inquirer.prompt([
+      {
+          type: 'list',
+          name: 'employeeType',
+          message: "What kind of team member would you like to add? (Required)",
+          choices: ['Engineer', 'Intern', "I don't want to add anymore team members"],
+          validate: employeeTypeInput => {
+            if (employeeTypeInput) {
+              return true;
+            } else {
+              console.log('Please enter an employee type!');
+              return false;
+            }
+          }
+        },
+  ])
+  .then(typeData => {
+      if (typeData.employeeType === 'Engineer'){
+          promptEngineer()
+      } else if(typeData.employeeType === 'Intern'){
+          promptIntern()
+      } else if (typeData.employeeType === "I don't want to add anymore team members") {
+          console.log('HTML file generated!')
+          console.log(employeeArray)
+          generatePage(employeeArray)
+      }
+  })
 
+}
 
 
 
 //initialize the app
 promptManager()
 
-// .then(generatePage(employeeArray))
+
 
 
