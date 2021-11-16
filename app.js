@@ -1,5 +1,11 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+const generatePage = require('./src/page-template');
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+
+
 
 let employeeArray = []; 
 
@@ -62,16 +68,15 @@ const promptManager = () => {
           },
     ])
     .then(managerData => {
-      //push object to employeeArray
-      managerData.type = 'manager'
-      employeeArray.push(managerData);
-
-      //generateHTML using this object
-
-
-      //prompt and log
+      //destructure
+      const {managerName, managerID, managerEmail, officeNumber} = managerData
+      //new manager
+      const newManager = new Manager(managerName, managerID, managerEmail, officeNumber)
+    //push newmanager to employeeArray
+      employeeArray.push(newManager);
+    
+      //prompt employeeType
         promptEmployeeType();
-        console.log(managerData);
     })
 }
 
@@ -162,15 +167,14 @@ const promptEngineer = () => {
           },
     ])
     .then(engineerData => {
-      //push object to employeeArray
-      engineerData.type = 'engineer'
-      employeeArray.push(engineerData);
-
-      //generateHTML using this object
-
-      //reprompt and log
+     //destructure prompt object 
+      const {engineerName, engineerID, engineerEmail, engineerGithub} = engineerData;
+      //make new engineer
+      const newEngineer = new Engineer(engineerName, engineerID, engineerEmail, engineerGithub)
+       //push new engineer to employeeArray
+      employeeArray.push(newEngineer);
+      //reprompt employeetype
         promptEmployeeType();
-        console.log(engineerData);
     })
 }
 
@@ -230,15 +234,15 @@ const promptIntern = () => {
           },
     ])
     .then(internData => {
-      //push object to employeeArray
-      internData.type = 'intern'
-      employeeArray.push(internData);
-      //generateHTML using this object
-
-      //reprompt and log
-        promptEmployeeType();
-        console.log(internData);
-    })
+      //destructure prompt object 
+       const {internName, internID, internEmail, internGithub} = internData;
+       //make new intern
+       const newIntern = new Intern(internName, internID, internEmail, internGithub)
+        //push new intern to employeeArray
+       employeeArray.push(newIntern);
+       //reprompt employeetype
+         promptEmployeeType();
+     })
 
 }
 
@@ -246,10 +250,9 @@ const promptIntern = () => {
 
 
 
-const promptUser = () => {
-    promptManager().then()
-}
+//initialize the app
+promptManager()
 
+// .then(generatePage(employeeArray))
 
-promptUser();
 
