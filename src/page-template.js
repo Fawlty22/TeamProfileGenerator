@@ -1,23 +1,46 @@
-const Engineer = require("../lib/Engineer")
 
-const generateCards = employeeArray => {
-    const manager = employeeArray[0]
-    const engineers = employeeArray.filter(employee => {
-        if(employee == 'Engineer'){
-            return true
-        }else {
-            return false 
-        }
+
+const generateCardSection = employeeArray => {
+
+    //this is an array of all of the html for each employee card
+    const cardArray = employeeArray.map(employee => {
+        generateCard(employee)
     })
-    console.log('engineeeeeeeers', engineers)
+
+    console.log('cardArray', cardArray)
+    //return the html for each card as one big string.
+    // return cardArray.join('')
+    //****FOR NEXT SESSION */
+    //cardarray is coming back as undefined and i think it is because of 
+
 }
 
+//make each card and return the html
+    const generateCard = employee => {
+        return `
+        <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">${employee.getName()}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">${employee.getRole()}</h6>
+                  <a href="#" class="card-link">${employee.getEmail()}</a>
+                  ${githubSchoolOffice(employee)}
+                </div>
+        </div>
+        `
+    }
 
+  // check which property this object has, since it could be any employee type, and return the appropriate html.
+    const githubSchoolOffice = employee => {
+        if(employee.school) {
+            return `<a href="#" class="card-link">${employee.getSchool()}</a>`
+        } else if (employee.github) {
+            return `<a href="#" class="card-link">${employee.getGithub()}</a>`
+        } else if (employee.officeNumber) {
+            return `<a href="#" class="card-link">${employee.officeNumber}</a>`
+        }
+    }
 
-
-module.exports = templateData => {
-//destructure parameter object
-// const { name, type } = templateData;  
+module.exports = employeeArray => { 
 //html return
     return `
     <!DOCTYPE html>
@@ -40,7 +63,7 @@ module.exports = templateData => {
         </header>
         
         <main class='d-flex justify-content-center'>
-            ${generateCards(templateData)}
+            ${generateCardSection(employeeArray)}
         </main>
     </body>
     
