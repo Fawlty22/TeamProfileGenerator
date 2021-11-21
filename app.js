@@ -191,13 +191,13 @@ const promptIntern = () => {
           },
           {
             type: 'input',
-            name: 'internGithub',
-            message: "What is this intern's Github username? (Required)",
-            validate: internGithub => {
-              if (internGithub) {
+            name: 'internSchool',
+            message: "Where did/does this intern go to school? (Required)",
+            validate: internSchool => {
+              if (internSchool) {
                 return true;
               } else {
-                console.log("Please enter this intern's Github username!");
+                console.log("Please enter where this intern went or currently goes to school.");
                 return false;
               }
             }
@@ -205,9 +205,9 @@ const promptIntern = () => {
     ])
     .then(internData => {
       //destructure prompt object 
-       const {internName, internID, internEmail, internGithub} = internData;
+       const {internName, internID, internEmail, internSchool} = internData;
        //make new intern
-       const newIntern = new Intern(internName, internID, internEmail, internGithub)
+       const newIntern = new Intern(internName, internID, internEmail, internSchool)
         //push new intern to employeeArray
        employeeArray.push(newIntern);
        //reprompt employeetype
@@ -240,17 +240,31 @@ const promptEmployeeType = () => {
           promptIntern()
       } else if (typeData.employeeType === "I don't want to add anymore team members") {
           console.log('HTML file generated!')
-          console.log(employeeArray)
-          generatePage(employeeArray)
+          console.log('employeeArray', employeeArray)
+          //call generatePage and write response to index.html
+          generatePage(employeeArray).then(response => {
+            writeToFile('./dist/index.html', response)
+          })
+          
       }
   })
+  
+
 
 }
 
+//write generated html to index.html
+function writeToFile(fileName, data) {
+  return fs.writeFile(fileName, data, err => {
+      if (err) {
+          console.log(err);
+      }
+  })
+}
 
 
 //initialize the app
-promptManager()
+promptManager();
 
 
 

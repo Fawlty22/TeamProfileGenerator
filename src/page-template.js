@@ -1,47 +1,57 @@
+// const generateCardSection = employeeArray => {
+//     const cardSectionArray = generateCardSectionArray(employeeArray);
+// //for each index of the generateCardSectionArray, add it to 
+//     string = ''
+//     console.log('1234567908', cardSectionArray)
+    
+    
+// }
 
-
-const generateCardSection = employeeArray => {
-
+const generateCardSection = async employeeArray => {
     //this is an array of all of the html for each employee card
-    const cardArray = employeeArray.map(employee => {
-        generateCard(employee)
+    const cardArrayMap = employeeArray.map(async employee => {
+        const mappedCardArray = await generateCard(employee); 
+        return mappedCardArray
     })
 
-    console.log('cardArray', cardArray)
-    //return the html for each card as one big string.
-    // return cardArray.join('')
-    //****FOR NEXT SESSION */
-    //cardarray is coming back as undefined and i think it is because of 
-
+    return Promise.all(cardArrayMap).then(data => {
+       return data
+    })
+    
 }
 
 //make each card and return the html
-    const generateCard = employee => {
+    const generateCard = async employee => {
+        const employeeNow = await githubSchoolOffice(employee)
         return `
         <div class="card" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title">${employee.getName()}</h5>
                   <h6 class="card-subtitle mb-2 text-muted">${employee.getRole()}</h6>
-                  <a href="#" class="card-link">${employee.getEmail()}</a>
-                  ${githubSchoolOffice(employee)}
+                  <a href="mailto:${employee.getEmail()}" class="card-link">${employee.getEmail()}</a>
+                  </br>
+                  ${employeeNow}
                 </div>
         </div>
         `
     }
 
   // check which property this object has, since it could be any employee type, and return the appropriate html.
-    const githubSchoolOffice = employee => {
+    const githubSchoolOffice = async employee => {
         if(employee.school) {
-            return `<a href="#" class="card-link">${employee.getSchool()}</a>`
+            return `<a href="#" class="card-link">Attended: ${employee.getSchool()}</a>`
         } else if (employee.github) {
-            return `<a href="#" class="card-link">${employee.getGithub()}</a>`
+            return `<a href="https://${employee.getGithub()}.github.io" class="card-link">GitHub: ${employee.getGithub()}</a>`
         } else if (employee.officeNumber) {
-            return `<a href="#" class="card-link">${employee.officeNumber}</a>`
+            return `<p class="card-link">Office Number: ${employee.officeNumber}</p>`
         }
     }
 
-module.exports = employeeArray => { 
+async function generatePage(employeeArray) { 
 //html return
+const htmlArray = await generateCardSection(employeeArray)
+const htmlString = htmlArray.join(" ");
+
     return `
     <!DOCTYPE html>
     <html lang="en">
@@ -62,8 +72,8 @@ module.exports = employeeArray => {
             </div>
         </header>
         
-        <main class='d-flex justify-content-center'>
-            ${generateCardSection(employeeArray)}
+        <main class='d-flex justify-content-around mt-5'>
+            ${htmlString}
         </main>
     </body>
     
@@ -71,3 +81,4 @@ module.exports = employeeArray => {
     `
 }
 
+module.exports = generatePage;
