@@ -10,7 +10,7 @@
 
 
   ## **Description**
-  This is the module 10 weekly challenge. In this challenge we created a node app that accepts prompt data and converts it into an html page.
+  This is the module 10 weekly challenge assignment.  This app takes inquirer prompt responses and converts it into an HTML page to display members of a given team of workers.
 
 
   
@@ -29,12 +29,12 @@ Copyright 2021 Matthew Keys
 
 
   ## **Installation** 
-  To run this program locally, run 'npm i node app' on your command line. <br>
-  You can also watch a short video on installation [here.](https://None currently available)
+  To run this program locally, npm i node app <br>
+  You can also watch a short video on installation [here.](https://youtu.be/e1hZKX6q9h8)
 
 
   ## **Usage Information**
-  This app is meant for anyone needing to assemble data about their team, 
+  This is for anyone to use for any project,.
 
 
   ## **Contribution Guidelines** 
@@ -176,8 +176,8 @@ For answers to common questions about this code of conduct, see the FAQ at
     
 
   ## **Tests** 
-  Inside the tests folder, you will find all of the constructor tests for this app.
+  Tests can be found in the tests folder!
 
   ## **Questions**
   Visit my [GitHub!](https://Fawlty22.github.io)
-  Or, if you'd like to contact me directly, [email me!](mailto:Mattthewjkeys22@gmail.com)
+  Or, if you'd like to contact me directly, [email me!](mailto:Matthewjkeys22@gmail.com)
